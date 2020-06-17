@@ -1,0 +1,123 @@
+[
+{
+  "model": "app.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$0binujDjzN8a$JscwFAaZi0ONuZaoan2zjtfXALJluQWSQpQo+zlgImI=",
+    "last_login": "2020-06-17T02:54:59.463Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@admin.ru",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2020-06-10T02:20:38.892Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "app.category",
+  "pk": 1,
+  "fields": {
+    "title": "\u0413\u0430\u0434\u0436\u0435\u0442\u044b",
+    "parent": null,
+    "alias": ""
+  }
+},
+{
+  "model": "app.category",
+  "pk": 2,
+  "fields": {
+    "title": "\u0410\u043a\u0441\u0435\u0441\u0441\u0443\u0430\u0440\u044b",
+    "parent": null,
+    "alias": "accessories"
+  }
+},
+{
+  "model": "app.category",
+  "pk": 3,
+  "fields": {
+    "title": "\u0421\u043c\u0430\u0440\u0442\u0444\u043e\u043d\u044b",
+    "parent": 1,
+    "alias": "smartphones"
+  }
+},
+{
+  "model": "app.category",
+  "pk": 4,
+  "fields": {
+    "title": "\u0414\u0440\u0443\u0433\u043e\u0435",
+    "parent": null,
+    "alias": "other"
+  }
+},
+{
+  "model": "app.item",
+  "pk": 1,
+  "fields": {
+    "category": 3,
+    "name": "Nexus 5x",
+    "image": "img/nexus5x.webp",
+    "description": "\u041d\u0435\u043f\u043b\u043e\u0445\u043e\u0439 \u0442\u0435\u043b\u0435\u0444\u043e\u043d",
+    "slug": "nexus-5x"
+  }
+},
+{
+  "model": "app.item",
+  "pk": 2,
+  "fields": {
+    "category": 3,
+    "name": "iPhone 7",
+    "image": "img/iphone7.webp",
+    "description": "\u0422\u0435\u043b\u0435\u0444\u043e\u043d \u0441 \u044f\u0431\u043b\u043e\u043a\u043e\u043c",
+    "slug": "iphone-7"
+  }
+},
+{
+  "model": "app.item",
+  "pk": 3,
+  "fields": {
+    "category": 3,
+    "name": "Pixel 2",
+    "image": "img/pixel2.webp",
+    "description": "\u041a\u043b\u0430\u0441\u0441\u043d\u0430\u044f \u043a\u0430\u043c\u0435\u0440\u0430",
+    "slug": "pixel-2"
+  }
+},
+{
+  "model": "app.item",
+  "pk": 4,
+  "fields": {
+    "category": 3,
+    "name": "Samsung S8",
+    "image": "img/samsungs8.webp",
+    "description": "\u0422\u0435\u043b\u0435\u0444\u043e\u043d \u0431\u0435\u0437 \u044f\u0431\u043b\u043e\u043a\u0430",
+    "slug": "samsung-s8"
+  }
+},
+{
+  "model": "app.item",
+  "pk": 5,
+  "fields": {
+    "category": 4,
+    "name": "\u0424\u0443\u0444\u0430\u0439\u043a\u0430",
+    "image": "img/fufajka.jpg",
+    "description": "\u0424\u0443\u0444\u0430\u0439\u043a\u0430 \u0441\u0443\u043f\u0435\u0440",
+    "slug": "fufajka"
+  }
+},
+{
+  "model": "app.article",
+  "pk": 1,
+  "fields": {
+    "title": "\u041d\u0435 \u0437\u043d\u0430\u0435\u0442\u0435 \u0447\u0442\u043e \u043e\u0434\u0435\u0442\u044c \u043b\u0435\u0442\u043e\u043c?",
+    "text": "\u0412\u043e\u0442 \u0447\u0442\u043e \u043c\u044b \u043c\u043e\u0436\u0435\u043c \u043f\u0440\u0435\u0434\u043b\u043e\u0436\u0438\u0442\u044c:",
+    "date_add": "2020-06-17T11:51:49.986Z",
+    "items": [
+      5
+    ]
+  }
+}
+]

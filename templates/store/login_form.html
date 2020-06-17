@@ -1,0 +1,27 @@
+{% extends "store/login.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<form method="POST" action="{% url 'login_view' %}" class="form-signin">
+  {% csrf_token %}
+  {% if error %}
+    <div class="alert alert-danger">
+      <strong>Ошибка!</strong> Введите корректный логин и пароль.
+    </div>
+  {% endif %}
+  <input type="hidden" name="next" value="">
+  <img class="mb-4" src="{% static "img/logo.svg" %}" alt="" width="72" height="72">
+
+
+  <h1 class="h3 mb-3 font-weight-normal">Вход</h1>
+  <label for="{{ form.username.id_for_label }}" class="sr-only">Email</label>
+  {% render_field form.username class="form-control" type="email" placeholder="Email" required="" autofocus="" data-cip-id="inputEmail"%}
+  <label for="{{ form.password.id_for_label }}" class="sr-only">Password</label>
+  {% render_field form.password class="form-control" type="password" placeholder="Пароль" required="" data-cip-id="inputPassword"%}
+
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+  <a href="{% url 'registration' %}">Зарегистрироваться</a>
+  <p class="mt-5 mb-3 text-muted">© Просто магазин 2018</p>
+</form>
+{% endblock %}

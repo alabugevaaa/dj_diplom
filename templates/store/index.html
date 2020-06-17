@@ -1,0 +1,38 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-4">Добро пожаловать на сайт просто магазина</h1>
+      <p>Лучшие мобилы только у нас:</p>
+    </div>
+  </div>
+
+
+  <div class="container mb-5">
+    <!-- Example row of columns -->
+    <div class="row">
+      {% for item in items %}
+        {% include "store/item.html" with item=item %}
+      {% endfor %}
+    </div>
+  </div> <!-- /container -->
+  {% for article in articles %}
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-4">{{ article.title }}</h1>
+      <p>{{ article.text }}</p>
+    </div>
+  </div>
+
+  <div class="container mb-5">
+    <!-- Example row of columns -->
+    <div class="row">
+    {% for item in article.items.all %}
+      {% include "store/item.html" with item=item %}
+    {% endfor %}
+    </div>
+  </div> <!-- /container -->
+  {% endfor %}
+{% endblock %}

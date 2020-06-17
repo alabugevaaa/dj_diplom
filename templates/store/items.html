@@ -1,0 +1,21 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <!-- Example row of columns -->
+
+  <h1>{{ title }}</h1>
+  {% if not items %}
+  <div class="alert alert-dark" role="alert">
+    Тут пока ничего нет!
+  </div>
+  {% else %}
+  <div class="row">
+    {% for item in items %}
+      {% include "store/item.html" with item=item %}
+    {% endfor %}
+    {% endif %}
+  </div>
+</div><!-- /container -->
+{% endblock %}
