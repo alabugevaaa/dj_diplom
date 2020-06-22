@@ -13,6 +13,9 @@
       <li class="nav-item{% if request.resolver_match.url_name == 'main' %} active{% endif %}">
         <a class="nav-link" href="/">Главная</a>
       </li>
+      <li class="nav-item{% if request.resolver_match.url_name == 'articles' %} active{% endif %}">
+        <a class="nav-link" href="/articles/">Статьи</a>
+      </li>
 
       {% for item in menu %}
         {% if item.categories.all %}

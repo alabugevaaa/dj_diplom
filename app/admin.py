@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django_mptt_admin.admin import DjangoMpttAdmin
 
 from .models import OrderDetail, Order, Item, Category, Article, Review
 
@@ -18,7 +19,7 @@ class ItemAdmin(admin.ModelAdmin):
 
 
 @admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
+class CategoryAdmin(DjangoMpttAdmin):
     pass
 
 

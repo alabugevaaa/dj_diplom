@@ -10,7 +10,7 @@
       <strong>Ошибка!</strong> Введите корректный логин и пароль.
     </div>
   {% endif %}
-  <input type="hidden" name="next" value="">
+  <input type="hidden" name="next" value="{{ request.GET.next}}">
   <img class="mb-4" src="{% static "img/logo.svg" %}" alt="" width="72" height="72">
 
 

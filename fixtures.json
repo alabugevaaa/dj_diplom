@@ -4,7 +4,7 @@
   "pk": 1,
   "fields": {
     "password": "pbkdf2_sha256$150000$0binujDjzN8a$JscwFAaZi0ONuZaoan2zjtfXALJluQWSQpQo+zlgImI=",
-    "last_login": "2020-06-17T02:54:59.463Z",
+    "last_login": "2020-06-22T01:40:27.575Z",
     "is_superuser": true,
     "username": "admin",
     "first_name": "",
@@ -19,104 +19,120 @@
 },
 {
   "model": "app.category",
-  "pk": 1,
+  "pk": 5,
   "fields": {
+    "parent": null,
     "title": "\u0413\u0430\u0434\u0436\u0435\u0442\u044b",
-    "parent": null,
-    "alias": ""
+    "alias": "",
+    "lft": 1,
+    "rght": 4,
+    "tree_id": 1,
+    "level": 0
   }
 },
 {
   "model": "app.category",
-  "pk": 2,
+  "pk": 6,
   "fields": {
-    "title": "\u0410\u043a\u0441\u0435\u0441\u0441\u0443\u0430\u0440\u044b",
-    "parent": null,
-    "alias": "accessories"
-  }
-},
-{
-  "model": "app.category",
-  "pk": 3,
-  "fields": {
+    "parent": 5,
     "title": "\u0421\u043c\u0430\u0440\u0442\u0444\u043e\u043d\u044b",
-    "parent": 1,
-    "alias": "smartphones"
+    "alias": "smartphones",
+    "lft": 2,
+    "rght": 3,
+    "tree_id": 1,
+    "level": 1
   }
 },
 {
   "model": "app.category",
-  "pk": 4,
+  "pk": 7,
   "fields": {
-    "title": "\u0414\u0440\u0443\u0433\u043e\u0435",
     "parent": null,
-    "alias": "other"
+    "title": "\u0410\u043a\u0441\u0435\u0441\u0441\u0443\u0430\u0440\u044b",
+    "alias": "accessories",
+    "lft": 1,
+    "rght": 2,
+    "tree_id": 2,
+    "level": 0
+  }
+},
+{
+  "model": "app.category",
+  "pk": 8,
+  "fields": {
+    "parent": null,
+    "title": "\u0414\u0440\u0443\u0433\u043e\u0435",
+    "alias": "other",
+    "lft": 1,
+    "rght": 2,
+    "tree_id": 3,
+    "level": 0
   }
 },
 {
   "model": "app.item",
-  "pk": 1,
+  "pk": 6,
   "fields": {
-    "category": 3,
+    "category": 6,
     "name": "Nexus 5x",
     "image": "img/nexus5x.webp",
-    "description": "\u041d\u0435\u043f\u043b\u043e\u0445\u043e\u0439 \u0442\u0435\u043b\u0435\u0444\u043e\u043d",
+    "description": "\u041d\u0435\u043a\u0441\u0443\u0441",
     "slug": "nexus-5x"
   }
 },
 {
   "model": "app.item",
-  "pk": 2,
+  "pk": 7,
   "fields": {
-    "category": 3,
+    "category": 6,
     "name": "iPhone 7",
     "image": "img/iphone7.webp",
-    "description": "\u0422\u0435\u043b\u0435\u0444\u043e\u043d \u0441 \u044f\u0431\u043b\u043e\u043a\u043e\u043c",
+    "description": "\u0410\u0439\u0444\u043e\u043d",
     "slug": "iphone-7"
   }
 },
 {
   "model": "app.item",
-  "pk": 3,
+  "pk": 8,
   "fields": {
-    "category": 3,
+    "category": 6,
     "name": "Pixel 2",
-    "image": "img/pixel2.webp",
-    "description": "\u041a\u043b\u0430\u0441\u0441\u043d\u0430\u044f \u043a\u0430\u043c\u0435\u0440\u0430",
+    "image": "pixel2.webp",
+    "description": "\u041f\u0438\u0441\u043a\u0435\u043b\u044c",
     "slug": "pixel-2"
   }
 },
 {
   "model": "app.item",
-  "pk": 4,
+  "pk": 9,
   "fields": {
-    "category": 3,
+    "category": 6,
     "name": "Samsung S8",
     "image": "img/samsungs8.webp",
-    "description": "\u0422\u0435\u043b\u0435\u0444\u043e\u043d \u0431\u0435\u0437 \u044f\u0431\u043b\u043e\u043a\u0430",
+    "description": "\u0421\u0430\u043c\u0441\u0443\u043d\u0433",
     "slug": "samsung-s8"
   }
 },
 {
   "model": "app.item",
-  "pk": 5,
+  "pk": 10,
   "fields": {
-    "category": 4,
+    "category": 8,
     "name": "\u0424\u0443\u0444\u0430\u0439\u043a\u0430",
-    "image": "img/fufajka.jpg",
-    "description": "\u0424\u0443\u0444\u0430\u0439\u043a\u0430 \u0441\u0443\u043f\u0435\u0440",
+    "image": "fufajka.jpg",
+    "description": "\u041e\u0442\u043b\u0438\u0447\u043d\u0430\u044f \u0444\u0443\u0444\u0430\u0439\u043a\u0430",
     "slug": "fufajka"
   }
 },
 {
   "model": "app.article",
-  "pk": 1,
+  "pk": 2,
   "fields": {
     "title": "\u041d\u0435 \u0437\u043d\u0430\u0435\u0442\u0435 \u0447\u0442\u043e \u043e\u0434\u0435\u0442\u044c \u043b\u0435\u0442\u043e\u043c?",
-    "text": "\u0412\u043e\u0442 \u0447\u0442\u043e \u043c\u044b \u043c\u043e\u0436\u0435\u043c \u043f\u0440\u0435\u0434\u043b\u043e\u0436\u0438\u0442\u044c:",
-    "date_add": "2020-06-17T11:51:49.986Z",
+    "text": "<p>\u0412\u043e\u0442 \u0447\u0442\u043e \u043c\u044b \u043c\u043e\u0436\u0435\u043c \u043f\u0440\u0435\u0434\u043b\u043e\u0436\u0438\u0442\u044c:</p>",
+    "date_add": "2020-06-22T02:40:51.901Z",
     "items": [
-      5
+      10
     ]
   }
 }

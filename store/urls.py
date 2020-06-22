@@ -14,14 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from app.views import (main, category_content, ItemView, cart, create_order,
-                       login_view, logout_view, registration)
+                       login_view, logout_view, registration, articles)
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('', main, name='main'),
     path('category/<name>/', category_content, name='category_content'),
     path('item/<slug:slug>/', ItemView.as_view(), name='show_item'),
@@ -30,4 +31,5 @@ urlpatterns = [
     path('login/', login_view, name='login_view'),
     path('logout/', logout_view, name='logout_view'),
     path('registration/', registration, name='registration'),
+    path('articles/', articles, name='articles'),
 ]

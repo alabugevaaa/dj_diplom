@@ -4,64 +4,67 @@
 {% load widget_tweaks %}
 
 {% block content %}
-  <div class="container mt-3">
-    <!-- Example row of columns -->
-    <div class="row">
-      <div class="col-md-12">
-        <h2>{{ item.name }}</h2>
+<div class="container mt-3">
+  <!-- Example row of columns -->
+  <div class="row">
+    <div class="col-md-12">
+      <h2>{{ item.name }}</h2>
 
-        <img src="{% static item.image.url %}" width="120">
+      <img src="{% static item.image.url %}" width="120">
 
-        <p>{{ item.description }}</p>
-        <form method="post" action="{% url 'cart' %}">
-          {% csrf_token %}
-          <input type="hidden" name="merchandise_id" value="{{ item.id }}">
-          <input type="submit" class="btn btn-secondary" value="Добавить в корзину »">
-        </form>
-      </div>
+      <p>{{ item.description }}</p>
+      <form method="post" action="{% url 'cart' %}">
+        {% csrf_token %}
+        <input type="hidden" name="merchandise_id" value="{{ item.id }}">
+        <input type="submit" class="btn btn-secondary" value="Добавить в корзину »">
+      </form>
     </div>
-    <hr>
-    {% if not reviews %}
-      <p>Отзывов пока нет</p>
-    {% else %}
-      {% for review in reviews %}
-        {{ review.points|star }} <span>{{ review.name }}</span>
-        <p>{{ review.text }}</p>
-      {% endfor %}
-    {% endif %}
+  </div>
+  <hr>
+  {% if not reviews %}
+  <p>Отзывов пока нет</p>
+  {% else %}
+  {% for review in reviews %}
+  {{ review.points|star }} <span>{{ review.name }}</span>
+  <p>{{ review.text }}</p>
+  {% endfor %}
+  {% endif %}
 
-    <hr>
+  <hr>
 
-    <div class="row">
-      <div class="col-lg-6 col-md-8 col-sm-12">
-        {% if is_review_exist %}
-            <h4>Отзыв от вас уже есть</h4>
-        {% else %}
-            <h4>Оставте отзыв:</h4>
-            <form action="{% url 'show_item' item.slug %}" method="POST">
-                {% csrf_token %}
-                <div class="form-group">
-                  <label for="{{ form.name.id_for_label }}">Имя</label>
-                  {% render_field form.name class="form-control" aria-describedby="nameHelp" placeholder="Представтесь" data-cip-id="name" %}
-                </div>
-              <div class="form-group">
-                <label for="{{ form.text.id_for_label }}">Содержание</label>
-                {% render_field form.text class="form-control" placeholder="Содержание"%}
-              </div>
-              {% for radio in form.points %}
-                  <div class="form-check" style="margin-left: -1.25rem;">
-                    {{ radio.tag }}
-                    {{ radio.choice_label }}
-                  </div>
-              {% endfor %}
+  <div class="row">
+    <div class="col-lg-6 col-md-8 col-sm-12">
+      {% if not request.user.is_authenticated %}
+      <h4><a href="{% url 'login_view' %}">Авторизуйтесь</a>, чтобы оставить отзыв</h4>
+      {% elif is_review_exist %}
+      <h4>Отзыв от вас уже есть</h4>
+      {% else %}
+      <h4>Оставте отзыв:</h4>
+      <form action="{% url 'show_item' item.slug %}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="{{ form.name.id_for_label }}">Имя</label>
+          {% render_field form.name class="form-control" aria-describedby="nameHelp" placeholder="Представтесь"
+          data-cip-id="name" %}
+        </div>
+        <div class="form-group">
+          <label for="{{ form.text.id_for_label }}">Содержание</label>
+          {% render_field form.text class="form-control" placeholder="Содержание"%}
+        </div>
+        {% for radio in form.points %}
+        <div class="form-check" style="margin-left: -1.25rem;">
+          {{ radio.tag }}
+          {{ radio.choice_label }}
+        </div>
+        {% endfor %}
 
-              <button type="submit" class="btn btn-primary">Оставить</button>
-            </form>
-        {% endif %}
-      </div>
+        <button type="submit" class="btn btn-primary">Оставить</button>
+      </form>
+      {% endif %}
     </div>
+  </div>
 
-  </div> <!-- /container -->
+</div> <!-- /container -->
 {% endblock %}
 
 

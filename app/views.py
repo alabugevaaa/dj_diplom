@@ -19,6 +19,7 @@ def logout_view(request):
 
 def login_view(request):
     context = {}
+    next = request.POST.get('next', request.GET.get('next', ''))
     form = LoginForm(request.POST or None)
     if form.is_valid():
         username = form.cleaned_data['username']
@@ -26,6 +27,8 @@ def login_view(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
+            if next:
+                return redirect(next)
             return redirect(main)
         else:
             context['error'] = True
@@ -54,10 +57,18 @@ def registration(request):
 def main(request):
     template_name = 'store/index.html'
     best_mobiles = Item.objects.filter(category__title='Смартфоны')[:3]
-    articles = Article.objects.all().prefetch_related('items')
+    articles = Article.objects.all().prefetch_related('items')[:3]
 
     context = {'items': best_mobiles,
                'articles': articles}
+    return render(request, template_name, context)
+
+
+def articles(request):
+    template_name = 'store/articles.html'
+    articles = Article.objects.all()
+
+    context = {'articles': articles}
     return render(request, template_name, context)
 
 
@@ -93,9 +104,10 @@ class ItemView(FormView):
         reviews = Review.objects.filter(item=item)
         context['item'] = item
         context['reviews'] = reviews
-        reviewed = reviews.filter(user=request.user).count()
-        is_review_exist = True if reviewed > 0 else False
-        context['is_review_exist'] = is_review_exist
+        if request.user.is_authenticated:
+            reviewed = reviews.filter(user=request.user).count()
+            is_review_exist = True if reviewed > 0 else False
+            context['is_review_exist'] = is_review_exist
         return self.render_to_response(context)
 
     def form_valid(self, form):
@@ -147,37 +159,37 @@ class Cart(object):
 
 
 def cart(request):
-    if not request.user.is_authenticated:
-        redirect(reverse('login'))
-    else:
-        user_cart = Cart(request)
+    user_cart = Cart(request)
 
-        if request.method == "POST":
-            item_id = request.POST.get('merchandise_id')
-            item = get_object_or_404(Item, id=item_id)
-            user_cart.add(item)
+    if request.method == "POST":
+        item_id = request.POST.get('merchandise_id')
+        item = get_object_or_404(Item, id=item_id)
+        user_cart.add(item)
 
-        total_count = len(user_cart)
-        context = {
-            'items': user_cart,
-            'total_count': total_count
-        }
+    total_count = len(user_cart)
+    context = {
+        'items': user_cart,
+        'total_count': total_count
+    }
 
-        return render(request, 'store/cart.html', context)
+    return render(request, 'store/cart.html', context)
 
 
 def create_order(request):
-    if request.method == "POST":
-        user = request.user
-        cart = Cart(request)
-        order = Order.objects.create(user=user)
-        for item in cart:
-            product = item['product']
-            quantity = item['quantity']
-            OrderDetail.objects.create(order=order, item=product, count=quantity)
-        cart.clear()
-        return render(request, 'store/order.html', {'order': order})
+    if not request.user.is_authenticated:
+        return redirect('/login/?next=/cart/')
     else:
-        return HttpResponseBadRequest()
+        if request.method == "POST":
+            user = request.user
+            cart = Cart(request)
+            order = Order.objects.create(user=user)
+            for item in cart:
+                product = item['product']
+                quantity = item['quantity']
+                OrderDetail.objects.create(order=order, item=product, count=quantity)
+            cart.clear()
+            return render(request, 'store/order.html', {'order': order})
+        else:
+            return HttpResponseBadRequest()
 
 

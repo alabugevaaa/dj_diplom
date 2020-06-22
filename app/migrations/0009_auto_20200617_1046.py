@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='order',
             name='order',
-            field=models.CharField(default=app.models.generate_order, max_length=20, unique=True, verbose_name='Уникальный номер заказа'),
+            field=models.CharField(max_length=20, unique=True, verbose_name='Уникальный номер заказа'),
         ),
     ]

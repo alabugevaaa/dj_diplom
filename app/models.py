@@ -1,30 +1,27 @@
-from datetime import datetime
-from random import randint
+import uuid
 
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from ckeditor_uploader.fields import RichTextUploadingField
+from mptt.models import MPTTModel, TreeForeignKey
 
 
-def generate_order():
-    """
-    Генератор номера заказа
-    """
-    while True:
-        order_id = str(randint(10 ** 14, 10 ** 15))
-        if not Order.objects.filter(order=order_id).exists():
-            break
-    return order_id
+class AbstractUUID(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    class Meta:
+        abstract = True
 
 
 class User(AbstractUser):
     pass
 
 
-class Category(models.Model):
+class Category(MPTTModel):
+    parent = TreeForeignKey("self", blank=True, null=True, db_index=True, on_delete=models.PROTECT,
+                            related_name="categories", verbose_name="Родительская категория")
     title = models.CharField(max_length=50, verbose_name="Заголовок")
-    parent = models.ForeignKey("self", blank=True, null=True, on_delete=models.PROTECT, related_name="categories",
-                               verbose_name="Родительская категория")
     alias = models.CharField(max_length=128, blank=True, verbose_name="Ссылка")
 
     class Meta:
@@ -38,7 +35,7 @@ class Category(models.Model):
 class Item(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name="items")
     name = models.CharField(max_length=100, verbose_name="Наименование")
-    image = models.ImageField(max_length=250, verbose_name="Фото")
+    image = models.ImageField(max_length=250, upload_to='img', verbose_name="Фото")
     description = models.TextField(verbose_name="Описание товара")
     slug = models.SlugField(max_length=50, verbose_name="Метка")
 
@@ -56,7 +53,7 @@ class Review(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name="reviews")
     text = models.TextField(max_length=250, verbose_name="Содержание")
     points = models.IntegerField(default=0, verbose_name="Оценка")
-    date_add = models.DateTimeField(default=datetime.now, verbose_name="Дата добавления отзыва")
+    date_add = models.DateTimeField(auto_now_add=True, verbose_name="Дата добавления отзыва")
 
     class Meta:
         verbose_name = 'Отыв'
@@ -69,8 +66,8 @@ class Review(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=100, verbose_name="Заголовок")
-    text = models.TextField(verbose_name="Текст")
-    date_add = models.DateTimeField(default=datetime.now, verbose_name="Дата создания статьи")
+    text = RichTextUploadingField(verbose_name="Текст")
+    date_add = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания статьи")
     items = models.ManyToManyField(Item, related_name='articles')
 
     class Meta:
@@ -82,11 +79,9 @@ class Article(models.Model):
         return f'{self.date_add} - {self.title}'
 
 
-class Order(models.Model):
+class Order(AbstractUUID):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Пользователь")
-    date_created = models.DateTimeField(default=datetime.now, verbose_name="Дата заказа")
-    order = models.CharField(max_length=20, unique=True, default=generate_order,
-                             verbose_name='Уникальный номер заказа')
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name="Дата заказа")
     items = models.ManyToManyField(Item, through="OrderDetail")
 
     class Meta:
@@ -95,7 +90,7 @@ class Order(models.Model):
         ordering = ['-date_created']
 
     def __str__(self):
-        return f'{self.user} - {self.date_created} - {self.order}'
+        return f'{self.user} - {self.date_created} - {self.id}'
 
 
 class OrderDetail(models.Model):
