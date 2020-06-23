@@ -3,20 +3,12 @@
 
 {% block content %}
 {% for article in articles %}
+<a href="{% url 'article' id=article.id %}" class="link_article">
 <div class="jumbotron">
   <div class="container">
     <h1 class="display-4">{{ article.title }}</h1>
-    <p>{% autoescape off %}{{ article.text }}{% endautoescape %}</p>
   </div>
 </div>
-
-<div class="container mb-5">
-  <!-- Example row of columns -->
-  <div class="row">
-    {% for item in article.items.all %}
-    {% include "store/item.html" with item=item %}
-    {% endfor %}
-  </div>
-</div> <!-- /container -->
+</a>
 {% endfor %}
 {% endblock %}

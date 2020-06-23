@@ -2,6 +2,7 @@ import copy
 
 from django.contrib.auth import logout, authenticate, login
 from django.core.cache import cache
+from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseBadRequest
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse
@@ -56,11 +57,16 @@ def registration(request):
 
 def main(request):
     template_name = 'store/index.html'
-    best_mobiles = Item.objects.filter(category__title='Смартфоны')[:3]
-    articles = Article.objects.all().prefetch_related('items')[:3]
-
-    context = {'items': best_mobiles,
-               'articles': articles}
+    context = {}
+    try:
+        category = Category.objects.get(alias='smartphones')
+        best_mobiles = Item.objects.filter(category__in=category.get_descendants(include_self=True))[:3]
+        context['items'] = best_mobiles
+    except ObjectDoesNotExist:
+        items = Item.objects.filter()[:3]
+        context['items'] = items
+    articles = Article.objects.all()[:3]
+    context['articles'] = articles
     return render(request, template_name, context)
 
 
@@ -72,12 +78,22 @@ def articles(request):
     return render(request, template_name, context)
 
 
+def article(request, id):
+    template_name = 'store/article.html'
+    article = get_object_or_404(Article, id=id)
+
+    context = {'article': article}
+    return render(request, template_name, context)
+
+
 def category_content(request, name):
     template_name = 'store/items.html'
     category = get_object_or_404(Category, alias=name)
-    items = Item.objects.filter(category=category)
+    items = Item.objects.filter(category__in=category.get_descendants(include_self=True))
+    subcategories = category.get_descendants()
     context = {'items': items,
-               'title': category.title}
+               'title': category.title,
+               'subcategories': subcategories}
 
     return render(request, template_name, context)
 

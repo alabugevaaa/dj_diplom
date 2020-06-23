@@ -1,3 +1,11 @@
 body {
   padding-top: 3.5rem;
 }
+.link_article {
+  color: #212529;
+  text-decoration: none;
+}
+.link_article:hover {
+  color: #002fa9;
+  text-decoration: none;
+}

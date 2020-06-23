@@ -6,16 +6,19 @@
   <!-- Example row of columns -->
 
   <h1>{{ title }}</h1>
+  {% for sub in subcategories %}
+    <a href="{% url 'category_content' name=sub.alias %}" class="btn btn-light" role="button">{{ sub }}</a>
+  {% endfor %}
   {% if not items %}
-  <div class="alert alert-dark" role="alert">
-    Тут пока ничего нет!
-  </div>
+    <div class="alert alert-dark" role="alert">
+      Тут пока ничего нет!
+    </div>
   {% else %}
   <div class="row">
     {% for item in items %}
       {% include "store/item.html" with item=item %}
     {% endfor %}
-    {% endif %}
   </div>
+  {% endif %}
 </div><!-- /container -->
 {% endblock %}

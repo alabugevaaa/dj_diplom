@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from app.views import (main, category_content, ItemView, cart, create_order,
-                       login_view, logout_view, registration, articles)
+                       login_view, logout_view, registration, article, articles)
 
 
 urlpatterns = [
@@ -31,5 +31,6 @@ urlpatterns = [
     path('login/', login_view, name='login_view'),
     path('logout/', logout_view, name='logout_view'),
     path('registration/', registration, name='registration'),
+    path('article/<int:id>/', article, name='article'),
     path('articles/', articles, name='articles'),
 ]
